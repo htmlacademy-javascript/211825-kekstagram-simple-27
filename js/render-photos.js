@@ -25,18 +25,17 @@
   </template> */
 
 
+// const picturesContainer = document.querySelector('.pictures');
+// const templatePictureFragment = document.querySelector('#picture').content;
+// const templatePicture = templatePictureFragment.querySelector('a');
+// const fragment = document.createDocumentFragment();
 
-const picturesContainer = document.querySelector('.pictures');
-const templatePictureFragment = document.querySelector('#picture').content;
-const templatePicture = templatePictureFragment.querySelector('a');
-const fragment = document.createDocumentFragment();
+// function createPicture (data) {
+//   for (let i = 0, i < data.length, i++) {
+//     const picture = templatePicture.cloneNode(true);
+//     picture.classList.add('picture');
 
-function createPicture (data) {
-  for (let i = 0, i < data.length, i++) {
-    const picture = templatePicture.cloneNode(true);
-    picture.classList.add('picture');
-
-    fragment.appendChild(picture);
-  }
-  picturesContainer.appendChild(fragment);
-}
+//     fragment.appendChild(picture);
+//   }
+//   picturesContainer.appendChild(fragment);
+// }
