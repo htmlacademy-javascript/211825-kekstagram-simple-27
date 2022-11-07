@@ -1,8 +1,7 @@
 import { isEscapeKey } from './util.js';
-import {setScale} from './scale-editor.js';
+import { setScale, scaleValue, DEFAULT_SCALE_NUMBER } from './scale-editor.js';
 
-const HASHTAGS_VALID_REGEX = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-const HASHTAGS_MAX_AMOUNT = 5;
+const COMMENT_MIN_LENGTH = 20;
 const COMMENT_MAX_LENGTH = 140;
 
 
@@ -14,12 +13,10 @@ allForms.forEach((item) => {
   item.enctype = 'multipart/form-data';
 });
 
-// хэштеги и комментарии необязательны для заполнения, остальные - обязательны.
-
-const hashtagsInput = document.querySelector('.text__hashtags');
-hashtagsInput.type = 'text';
+// комментарий обязателен для заполнения
 
 const commentInput = document.querySelector('.text__description');
+commentInput.required = true;
 
 const uploadFileInput = document.querySelector('#upload-file');
 const uploadCancelButton = document.querySelector('#upload-cancel');
@@ -27,7 +24,7 @@ const uploadCancelButton = document.querySelector('#upload-cancel');
 function onOpenUploadFormEscKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    if (hashtagsInput === document.activeElement || commentInput === document.activeElement) {
+    if (commentInput === document.activeElement) {
       return evt;
     }
     onUploadCancelButtonClick();
@@ -53,7 +50,9 @@ function formRender() {
 function onUploadCancelButtonClick() {
   document.querySelector('.img-upload__overlay').classList.add('hidden');
   document.body.classList.remove('modal-open');
-  // document.querySelector('.img-upload__preview img').src = ''; // эта строчка вызывает ошибку с повторной загрузкой изображения, поле закрытия окна
+  uploadFileInput.value = '';
+  scaleValue.value = `${DEFAULT_SCALE_NUMBER}%`;
+  commentInput.value = '';
 
   document.removeEventListener('keydown', onOpenUploadFormEscKeydown);
   uploadFileInput.addEventListener('change', onUploadFileChange);
@@ -68,62 +67,15 @@ const pristine = new Pristine(imgUploadsForm, {
   errorTextClass: 'img-upload__error',
 }, false);
 
-// проверка по регулярному выражению
-function checkSingleHashtagFormat(values) {
-  if (values === '') {
-    return true;
-  }
-  const result = values
-    .trim()
-    .split(' ')
-    .every((value) => HASHTAGS_VALID_REGEX.test(value));
-  return result;
-}
-
-pristine.addValidator(
-  hashtagsInput,
-  checkSingleHashtagFormat,
-  'Хэш-тег должен начинаться с символа # (решётка). Быть длинной от 2х до 20ти символов, и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.'
-);
-
-// проверка на количество хэштэгов
-function checkHashtagsAmount(values) {
-  return values.trim().split(' ').length <= HASHTAGS_MAX_AMOUNT;
-}
-
-pristine.addValidator(
-  hashtagsInput,
-  checkHashtagsAmount,
-  `Не более ${HASHTAGS_MAX_AMOUNT} хэш-тегов`
-);
-
-// проверка на повторяющиеся хэш-тэги
-function checkOnSimilarHashtags(values) {
-  const countHashtags = values
-    .toLowerCase()
-    .trim()
-    .split(' ');
-  return new Set(countHashtags).size === countHashtags.length;
-}
-
-pristine.addValidator(
-  hashtagsInput,
-  checkOnSimilarHashtags,
-  'Один и тот же хэш-тег не может быть использован дважды'
-);
-
 // проверка на длинну строки для textarea
 function checkLength(checkedString) {
-  if (checkedString.length <= COMMENT_MAX_LENGTH) {
-    return true;
-  }
-  return false;
+  return checkedString.length <= COMMENT_MAX_LENGTH && checkedString.length >= COMMENT_MIN_LENGTH;
 }
 
 pristine.addValidator(
   commentInput,
   checkLength,
-  'Длина комментария не более 140 символов'
+  'Длина комментария не менее 20 и не более 140 символов'
 );
 
 // слушатель формы
