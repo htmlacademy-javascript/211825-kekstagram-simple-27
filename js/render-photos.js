@@ -6,15 +6,12 @@ function renderPhotos (photos) {
     .querySelector('.picture');
 
   const fragment = document.createDocumentFragment();
-  const pictureImg = templatePicture.querySelector('.picture__img');
-  const pictureLikes = templatePicture.querySelector('.picture__likes');
-  const pictureComments = templatePicture.querySelector('.picture__comments');
 
   photos.forEach(({ url, likes, comments }) => {
     const picture = templatePicture.cloneNode(true);
-    pictureImg.src = url;
-    pictureLikes.textContent = likes;
-    pictureComments.textContent = comments;
+    picture.querySelector('.picture__img').src = url;
+    picture.querySelector('.picture__likes').textContent = likes;
+    picture.querySelector('.picture__comments').textContent = comments;
     fragment.appendChild(picture);
   });
 
