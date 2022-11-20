@@ -1,6 +1,6 @@
 const picturesContainer = document.querySelector('.pictures');
 
-function renderPhotos (photos) {
+function renderPhotos(photos) {
   const templatePicture = document.querySelector('#picture')
     .content
     .querySelector('.picture');

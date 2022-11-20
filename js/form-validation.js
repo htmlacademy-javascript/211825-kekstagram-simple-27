@@ -1,5 +1,6 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, showAlert } from './util.js';
 import { setScale, scaleValue, DEFAULT_SCALE_NUMBER } from './scale-editor.js';
+import { uploadPhoto } from './api.js';
 
 const COMMENT_MIN_LENGTH = 20;
 const COMMENT_MAX_LENGTH = 140;
@@ -79,12 +80,36 @@ pristine.addValidator(
 );
 
 // слушатель формы
-imgUploadsForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-  if (isValid) {
-    imgUploadsForm.submit();
-  }
-});
+function onImgFormSubmit(onSuccess) {
+  imgUploadsForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      uploadPhoto(
+        evt,
+        () => onSuccess(),
+        () => showAlert('Отправка формы не удалась, попробуйте ещё раз'),
+      );
+      //     fetch(
+      //       'https://27.javascript.pages.academy/kekstagram-simple',
+      //       {
+      //         method: 'POST',
+      //         body: formData,
+      //       },
+      //     )
+      //       .then((response) => {
+      //         if (response.ok) {
+      //           onSuccess();
+      //         } else {
+      //           throw new Error(`${response.status} ${response.statusText}`);
+      //         }
+      //       })
+      //       .catch((response) => {
+      //         throw new Error(`${response.status} ${response.statusText}`);
+      //       });
+    }
+  });
+}
 
-export {formRender};
+
+export { formRender, onImgFormSubmit, onUploadCancelButtonClick };
