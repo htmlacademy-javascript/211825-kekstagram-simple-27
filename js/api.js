@@ -20,25 +20,23 @@ function downloadData(onSuccess) {
 }
 
 function uploadPhoto(evt, onSuccess, onError) {
-  return function () {
-    fetch(
-      'https://27.javascript.pages.academy/kekstagram-simple',
-      {
-        method: 'POST',
-        body: new FormData(evt.target),
-      },
-    )
-      .then((response) => {
-        if (response.ok) {
-          onSuccess();
-        } else {
-          onError('Отправка формы не удалась, попробуйте ещё раз');
-        }
-      })
-      .catch(() => {
+  fetch(
+    'https://27.javascript.pages.academy/kekstagram-simple',
+    {
+      method: 'POST',
+      body: new FormData(evt.target),
+    },
+  )
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
         onError('Отправка формы не удалась, попробуйте ещё раз');
-      });
-  };
+      }
+    })
+    .catch(() => {
+      onError('Отправка формы не удалась, попробуйте ещё раз');
+    });
 }
 
 
