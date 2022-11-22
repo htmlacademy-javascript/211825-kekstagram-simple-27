@@ -31,7 +31,6 @@ function onScaleBiggerButtonClick() {
     scaleSmallerButton.disabled = false;
   }
   scaleSmallerButton.disabled = false;
-  // console.log(scaleValue.value);
 }
 
 scaleBiggerButton.addEventListener('click', onScaleBiggerButtonClick);
@@ -41,4 +40,11 @@ function setScale() {
   return scaleValue.value;
 }
 
-export { setScale, scaleValue, DEFAULT_SCALE_NUMBER };
+function resetScale() {
+  scaleNumber = DEFAULT_SCALE_NUMBER;
+  scaleBiggerButton.disabled = false;
+  scaleSmallerButton.disabled = false;
+  scaleValue.value = `${DEFAULT_SCALE_NUMBER}%`;
+}
+
+export { setScale, scaleValue, DEFAULT_SCALE_NUMBER, resetScale };
