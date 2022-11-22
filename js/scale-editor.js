@@ -31,7 +31,6 @@ function onScaleBiggerButtonClick() {
     scaleSmallerButton.disabled = false;
   }
   scaleSmallerButton.disabled = false;
-  // console.log(scaleValue.value);
 }
 
 scaleBiggerButton.addEventListener('click', onScaleBiggerButtonClick);

@@ -14,6 +14,9 @@ allForms.forEach((item) => {
 });
 
 const imgUploadsForm = document.querySelector('#upload-select-image');
+const imgUploadPreview = document.querySelector('.img-upload__preview');
+const effectLevelSlider = document.querySelector('.effect-level__slider');
+
 
 // комментарий обязателен для заполнения
 const commentInput = document.querySelector('.text__description');
@@ -60,18 +63,21 @@ function formRender() {
   uploadFileInput.addEventListener('change', onUploadFileChange);
 }
 
+function resetFormValue() {
+  effectLevelSlider.classList.add('hidden');
+  uploadFileInput.value = '';
+  scaleValue.value = `${DEFAULT_SCALE_NUMBER}%`;
+  commentInput.value = '';
+  imgUploadPreview.style.filter = '';
+  imgUploadPreview.style.transform = `scale(${DEFAULT_SCALE_NUMBER / 100})`;
+  imgUploadPreview.className = '';
+}
+
 function onUploadCancelButtonClick() {
   document.querySelector('.img-upload__overlay').classList.add('hidden');
   document.body.classList.remove('modal-open');
-  // uploadFileInput.value = '';
-  // scaleValue.value = `${DEFAULT_SCALE_NUMBER}%`;
-  // commentInput.value = '';
-  // imgUploadsForm.reset();
-  // const formData = new FormData();
-  // formData.set('scale', 100);
-  // formData.set('effect', 'none');
-  // formData.set('description', '');
 
+  resetFormValue();
 
   document.removeEventListener('keydown', onOpenUploadFormEscKeydown);
   uploadFileInput.addEventListener('change', onUploadFileChange);
