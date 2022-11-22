@@ -1,8 +1,11 @@
 import { showAlert } from './util.js';
 
+const URL_GET = 'https://27.javascript.pages.academy/kekstagram-simple/data';
+const URL_POST = 'https://27.javascript.pages.academy/kekstagram-simple';
+
 function downloadData(onSuccess) {
   return function () {
-    fetch('https://27.javascript.pages.academy/kekstagram-simple/data')
+    fetch(URL_GET)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -21,7 +24,7 @@ function downloadData(onSuccess) {
 
 function uploadPhoto(evt, onSuccess, onError) {
   fetch(
-    'https://27.javascript.pages.academy/kekstagram-simple',
+    URL_POST,
     {
       method: 'POST',
       body: new FormData(evt.target),
@@ -40,4 +43,4 @@ function uploadPhoto(evt, onSuccess, onError) {
 }
 
 
-export { downloadData, uploadPhoto };
+export { downloadData, uploadPhoto, URL_POST, URL_GET };

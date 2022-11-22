@@ -1,6 +1,6 @@
 import { isEscapeKey } from './util.js';
-import { setScale, scaleValue, DEFAULT_SCALE_NUMBER } from './scale-editor.js';
-import { uploadPhoto } from './api.js';
+import { setScale, DEFAULT_SCALE_NUMBER, resetScale } from './scale-editor.js';
+import { uploadPhoto, URL_POST} from './api.js';
 
 const COMMENT_MIN_LENGTH = 20;
 const COMMENT_MAX_LENGTH = 140;
@@ -9,7 +9,7 @@ const COMMENT_MAX_LENGTH = 140;
 const allForms = document.querySelectorAll('form');
 allForms.forEach((item) => {
   item.method = 'post';
-  item.action = 'https://27.javascript.pages.academy/kekstagram-simple';
+  item.action = URL_POST;
   item.enctype = 'multipart/form-data';
 });
 
@@ -66,7 +66,7 @@ function formRender() {
 function resetFormValue() {
   effectLevelSlider.classList.add('hidden');
   uploadFileInput.value = '';
-  scaleValue.value = `${DEFAULT_SCALE_NUMBER}%`;
+  resetScale();
   commentInput.value = '';
   imgUploadPreview.style.filter = '';
   imgUploadPreview.style.transform = `scale(${DEFAULT_SCALE_NUMBER / 100})`;
@@ -142,6 +142,7 @@ function onErrorButtonClick() {
   errorButton.removeEventListener('click', onErrorButtonClick);
   document.removeEventListener('keydown', onErrorMessageEscKeydown);
   document.removeEventListener('click', onErrorMessageOutsideClick);
+  document.addEventListener('keydown', onOpenUploadFormEscKeydown);
 }
 
 function onErrorMessageEscKeydown(evt) {
@@ -178,6 +179,7 @@ function onImgFormSubmit(onSuccess) {
         () => {
           unblockSubmitButton();
           document.body.append(errorMessage);
+          document.removeEventListener('keydown', onOpenUploadFormEscKeydown);
           errorButton.addEventListener('click', onErrorButtonClick);
           document.addEventListener('keydown', onErrorMessageEscKeydown);
           document.addEventListener('click', onErrorMessageOutsideClick);
