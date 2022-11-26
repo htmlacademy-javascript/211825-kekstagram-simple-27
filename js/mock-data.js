@@ -2,7 +2,7 @@ import { getRandomNumber } from './util.js';
 
 const OBJECT_AMOUNT = 25;
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'My first photo',
   'Всем привет!',
   'А это я',
@@ -19,7 +19,7 @@ function createSingleObject (id) {
   return {
     id,
     url: `photos/${id}.jpg`,
-    description: DESCRIPTION[getRandomNumber(0, DESCRIPTION.length - 1)],
+    description: DESCRIPTIONS[getRandomNumber(0, DESCRIPTIONS.length - 1)],
     likes: getRandomNumber(15, 200),
     comments: getRandomNumber(0, 200),
   };
