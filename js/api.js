@@ -1,7 +1,7 @@
 import { showAlert } from './util.js';
 
 const URL_GET = 'https://27.javascript.pages.academy/kekstagram-simple/data';
-const URL_POST = 'https://28.javascript.pages.academy/kekstagram-simple';
+const URL_POST = 'https://27.javascript.pages.academy/kekstagram-simple';
 
 function downloadData(onSuccess) {
   return function () {
