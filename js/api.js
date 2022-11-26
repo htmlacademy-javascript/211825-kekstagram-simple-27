@@ -1,18 +1,12 @@
 import { showAlert } from './util.js';
 
 const URL_GET = 'https://27.javascript.pages.academy/kekstagram-simple/data';
-const URL_POST = 'https://27.javascript.pages.academy/kekstagram-simple';
+const URL_POST = 'https://28.javascript.pages.academy/kekstagram-simple';
 
 function downloadData(onSuccess) {
   return function () {
     fetch(URL_GET)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-
-        showAlert('Ошибка: не удалось получить данные');
-      })
+      .then((response) => response.ok ? response.json() : showAlert('Ошибка: не удалось получить данные') )
       .then((data) => {
         onSuccess(data);
       })
@@ -30,13 +24,7 @@ function uploadPhoto(evt, onSuccess, onError) {
       body: new FormData(evt.target),
     },
   )
-    .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        onError('Отправка формы не удалась, попробуйте ещё раз');
-      }
-    })
+    .then((response) => response.ok ? onSuccess() : onError('Отправка формы не удалась, попробуйте ещё раз'))
     .catch(() => {
       onError('Отправка формы не удалась, попробуйте ещё раз');
     });

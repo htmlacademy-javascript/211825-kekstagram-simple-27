@@ -42,7 +42,7 @@ function setScale() {
 
 function resetScale() {
   scaleNumber = DEFAULT_SCALE_NUMBER;
-  scaleBiggerButton.disabled = false;
+  scaleBiggerButton.disabled = true;
   scaleSmallerButton.disabled = false;
   scaleValue.value = `${DEFAULT_SCALE_NUMBER}%`;
 }
